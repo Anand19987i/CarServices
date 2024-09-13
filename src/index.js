@@ -127,9 +127,8 @@ app.get("/appointment", isAuthenticated, (req, res) => {
 app.get("/confirm", isAuthenticated, (req, res) => {
     res.render("confirm");
 });
-
-// module.exports = app
-const port = 5000;
-app.listen(port, () => {
-    console.log(`Server running on PORT ${port}`);
-});
+module.exports = app
+// const port = 5000;
+// app.listen(port, () => {
+//     console.log(`Server running on PORT ${port}`);
+// });
