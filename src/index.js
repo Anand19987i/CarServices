@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"); 
 const collection = require("./mongodb"); // Assuming this is your user collection
 const session = require("express-session");
 const Appointment = require("./config"); // This should be your appointment model
@@ -6,12 +6,11 @@ require("dotenv").config();
 
 const app = express();
 
-// Middleware for session handling
 app.use(session({
-    secret: 'your_secret_key', // Use environment variable for production
+    secret: 'your_secret_key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false} // Secure cookies only in production
+    cookie: { secure: true }
 }));
 
 app.use(express.json());
@@ -20,7 +19,6 @@ app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-// Authentication middleware
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
         return next();
@@ -28,7 +26,6 @@ const isAuthenticated = (req, res, next) => {
     res.redirect("/login");
 };
 
-// Route handlers
 app.get("/", (req, res) => {
     res.render("index", { user: req.session.user });
 });
@@ -48,7 +45,7 @@ app.post("/signup", async (req, res) => {
         if (existingUser) {
             return res.send("User already exists.");
         } else {
-            await collection.insertOne(data); // Changed to insertOne
+            await collection.insertMany(data); // Use insertOne instead of insertMany
             req.session.user = { name: data.name };
 
             req.session.save((err) => {
@@ -95,26 +92,29 @@ app.post("/appointment", isAuthenticated, async (req, res) => {
             name: req.body.username, // Ensure this matches your form input
             email: req.body.email,
             mobile_no: req.body.mobile_no,
-            service: req.body.service,
+            service: req.body.service, // Ensure this matches the enum values in the schema
             time: req.body.time,
-            days: req.body.days,
+            days: req.body.days, // Ensure this matches the enum values in the schema
         };
 
+        // Create a new appointment instance
         const appointment = new Appointment(newAppointment); 
-        await appointment.save(); 
+        await appointment.save(); // Save the instance
 
+        // Render the confirmation page with appointment details
         res.render("confirm", {
             service: req.body.service,
             time: req.body.time,
             days: req.body.days,
-            name: req.body.username,
-            message: "Your appointment has been successfully booked!"
+            name: req.body.username, // Ensure you pass the correct name
+            message: "Your appointment has been successfully booked!" // Optional confirmation message
         });
     } catch (error) {
         console.error("Error booking appointment:", error);
         res.status(500).send("An error occurred while booking the appointment.");
     }
 });
+
 
 app.get("/services", isAuthenticated, (req, res) => {
     res.render("services");
@@ -128,7 +128,8 @@ app.get("/confirm", isAuthenticated, (req, res) => {
     res.render("confirm");
 });
 
-// Export the app for Vercel
-module.exports = app;
-
-// Vercel handles the port, so you don't need to listen on a specific port
+// module.exports = app
+const port = 5000;
+app.listen(port, () => {
+    console.log(`Server running on PORT ${port}`);
+});
