@@ -2,17 +2,16 @@
   "name": "car-services",
   "version": "1.0.0",
   "description": "Car services web application",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "16.x"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/Anand19987i/CarServices.git"
+    "type": "git"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
