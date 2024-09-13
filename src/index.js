@@ -8,9 +8,9 @@ const app = express();
 
 app.use(session({
     secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true }
 }));
 
 app.use(express.json());
