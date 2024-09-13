@@ -10,7 +10,7 @@ app.use(session({
     secret: 'your_secret_key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 app.use(express.json());
