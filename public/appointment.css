@@ -1,0 +1,147 @@
+/* General Body Styling */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    width: 500px; /* Increased the width */
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: pulse 2s infinite;
+    transition: right 0.5s ease;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    color: #555;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input Fields Styling */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select {
+    width: calc(100% - 10px); /* Increased the width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+/* Button Styling */
+.book {
+    width: 100%; /* Full width */
+    padding: 12px;
+    background-color: #004754;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.book:hover {
+    background-color: #bebd00;
+}
+
+/* Message Styling */
+#message {
+    margin-top: 20px;
+    text-align: center;
+    color: #004754;
+    font-size: 14px;
+}
+
+/* Popup Styling */
+.popup {
+    right: 0;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    animation: pulse 2s infinite;
+    transition: right 0.5s ease;
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.social-icons a {
+    margin: 10px 0;
+    display: block;
+}
+
+.social-icons i {
+    font-size: 24px;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+.social-icons i:hover {
+    transform: scale(1.1);
+}
+
+.paused {
+    animation-play-state: paused;
+}
+
+/* Keyframe Animation
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+} */
+
+.popup.sticky {
+    position: fixed;
+    top: 50%;
+    top: calc(50% - 100px);
+    right: 0;
+    width: 50px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}

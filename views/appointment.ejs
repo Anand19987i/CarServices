@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Form | pbc-webdev</title>
+    <link rel="stylesheet" href="/appointment.css">
+    <link rel="stylesheet" href="/style1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="booking-container">
+        <h1>Book Your Appointment</h1>
+        <% if (typeof message !== 'undefined') { %>
+            <div id="message" style="color: green;"><%= message %></div>
+        <% } %>
+        <form id="appointment-form" action="/appointment" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneno">Mobile No:</label>
+                <input type="number" id="phoneno" name="mobile_no" required>
+            </div>
+            <div class="form-group">
+                <label for="service">Choose a Service:</label>
+                <select id="service" name="service" required>
+                    <option value="air_filter">Air Filter Change</option>
+                    <option value="car_washing">Car Washing</option>
+                    <option value="brakes_inspection">Brakes Inspection</option>
+                    <option value="spark_plugs">Spark Plugs Replacement</option>
+                    <option value="tire_rotation">Tire Rotation</option>
+                    <option value="full_service">Full Car Service</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="days">Available Days:</label>
+                <select id="days" name="days" required>
+                    <option value="monday">Monday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="friday">Friday</option>
+                </select>
+            </div>
+            <a href="/confirm" class="book">Book Appointment</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("appointment-form");
+            form.addEventListener("submit", function (event) {
+                var messageDiv = document.getElementById("message");
+                messageDiv.innerHTML = "Booking in progress...";
+                messageDiv.style.color = "blue";
+            });
+        });
+    </script>
+</body>
+</html>
