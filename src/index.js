@@ -115,6 +115,18 @@ app.post("/appointment", isAuthenticated, async (req, res) => {
     }
 });
 
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.send("An error occurred while logging out.");
+        }
+        // Redirect to the login page or home page after logging out
+        res.redirect("/");
+    });
+});
+
+
 
 app.get("/services", isAuthenticated, (req, res) => {
     res.render("services");

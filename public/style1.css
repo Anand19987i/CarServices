@@ -78,6 +78,12 @@ header.shadow #search-icon{
     color: var(--text-color);
     display: none;
 }
+.logout-link {
+    margin-left: 10px; /* Adjust the value to increase or decrease space */
+    /* Change color if needed */
+    text-decoration: none; /* Optional: remove underline */
+}
+
 
 .logo{
     font-size: 1.2rem;
