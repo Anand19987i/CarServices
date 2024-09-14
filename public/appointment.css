@@ -13,7 +13,8 @@ body {
 
 /* Container Styling */
 .container {
-    width: 500px; /* Increased the width */
+    width: 90%; /* Changed to percentage for responsiveness */
+    max-width: 500px; /* Set a max width */
     background-color: #fff;
     padding: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -51,7 +52,6 @@ select {
     padding: 10px;
     border: 1px solid #ccc;
     font-size: 14px;
-    background-color: #f9f9f9;
 }
 
 /* Button Styling */
@@ -120,8 +120,8 @@ select {
     animation-play-state: paused;
 }
 
-/* Keyframe Animation
-@keyframes pulse {
+/* Keyframe Animation */
+/* @keyframes pulse {
     0% {
         transform: scale(1);
     }
@@ -133,15 +133,50 @@ select {
     }
 } */
 
-.popup.sticky {
-    position: fixed;
-    top: 50%;
-    top: calc(50% - 100px);
-    right: 0;
-    width: 50px;
-    height: 200px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 999;
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 20px; /* Reduce padding */
+    }
+
+    .book {
+        padding: 10px; /* Adjust button padding */
+        font-size: 14px; /* Reduce button font size */
+    }
+
+    h1 {
+        font-size: 24px; /* Adjust heading size */
+    }
+
+    label {
+        font-size: 12px; /* Adjust label size */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    select {
+        font-size: 12px; /* Reduce input font size */
+    }
+
+    #message {
+        font-size: 12px; /* Adjust message font size */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px; /* Further adjust heading size */
+    }
+
+    .container {
+        padding: 15px; /* Further reduce padding */
+    }
+
+    .book {
+        font-size: 12px; /* Further reduce button font size */
+    }
 }
