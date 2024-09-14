@@ -33,45 +33,51 @@
             <div class="form-group">
                 <label>Choose Services:</label>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="air_filter" name="service[]" value="air_filter">
+                    <input type="checkbox" id="air_filter" name="services" value="air_filter">
                     <label for="air_filter">Air Filter Change</label>
                 </div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="car_washing" name="service[]" value="car_washing">
+                    <input type="checkbox" id="car_washing" name="services" value="car_washing">
                     <label for="car_washing">Car Washing</label>
                 </div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="brakes_inspection" name="service[]" value="brakes_inspection">
+                    <input type="checkbox" id="brakes_inspection" name="services" value="brakes_inspection">
                     <label for="brakes_inspection">Brakes Inspection</label>
                 </div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="spark_plugs" name="service[]" value="spark_plugs">
+                    <input type="checkbox" id="spark_plugs" name="services" value="spark_plugs">
                     <label for="spark_plugs">Spark Plugs Replacement</label>
                 </div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="tire_rotation" name="service[]" value="tire_rotation">
+                    <input type="checkbox" id="tire_rotation" name="services" value="tire_rotation">
                     <label for="tire_rotation">Tire Rotation</label>
                 </div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="full_service" name="service[]" value="full_service">
+                    <input type="checkbox" id="full_service" name="services" value="full_service">
                     <label for="full_service">Full Car Service</label>
                 </div>
                 <small id="service-error" style="color: red;"></small>
-            </div>
+
+            </div>            
+                <small id="service-error" style="color: red;"></small>
             <div class="form-group">
                 <label for="time">Time (9 AM - 6 PM):</label>
                 <input type="time" id="time" name="time" required>
                 <small id="time-error" style="color: red;"></small>
             </div>
-            <div class="form-group">
+           <div class="form-group">
                 <label for="days">Available Days:</label>
                 <select id="days" name="days" required>
                     <option value="monday">Monday</option>
                     <option value="wednesday">Wednesday</option>
                     <option value="friday">Friday</option>
                 </select>
-            </div>
-            <a href="#" id="submit-link" class="book">Book Appointment</a>
+            </div> 
+            <form id="appointment-form" action="/appointment" method="POST">
+                <!-- form fields as before -->
+                <button type="submit" class="book">Book Appointment</button> <!-- Changed from anchor to button -->
+            </form>
+            
         </form>
     </div>
 
@@ -95,9 +101,9 @@
                 var name = document.getElementById("name");
                 var email = document.getElementById("email");
                 var phoneno = document.getElementById("phoneno");
-                var time = document.getElementById("time");
+                var time = document.getElementById("time"); 
                 var checkboxes = document.querySelectorAll('input[name="service[]"]');
-                var isServiceSelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                var isServiceSelected = Array.from(checkboxes).some(checkbox => checkbox.checked); 
 
                 // Name validation
                 if (name.value.length < 3) {
@@ -119,21 +125,22 @@
                 }
 
                 // Service validation
-                if (!isServiceSelected) {
+                if (!isServiceSelected()) {
                     isValid = false;
-                    document.getElementById("service-error").textContent = "Please select at least one service.";
+                    serviceError.textContent = "Please select at least one service.";
                 }
 
-                // Time validation
+                //Time validation
                 if (time.value < "09:00" || time.value > "18:00") {
-                    isValid = false;
-                    document.getElementById("time-error").textContent = "Please select a time between 9 AM and 6 PM.";
+                   isValid = false;
+                   document.getElementById("time-error").textContent = "Please select a time between 9 AM and 6 PM.";
                 }
 
                 // If valid, submit form
-                if (isValid) {
-                    form.submit();  // Submit the form
-                    window.location.href = "/confirm";  // Redirect to /confirm
+                if (isValid) {  // Submit the form
+                    form.submit(); 
+                    window.location.href = "/confirm";
+                 // Redirect to /confirm
                 } else {
                     event.preventDefault();  // Prevent default anchor navigation if validation fails
                 }

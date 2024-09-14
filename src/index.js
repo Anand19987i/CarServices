@@ -1,7 +1,6 @@
-const express = require("express"); 
-const Collection1 = require("./mongodb"); // Assuming this is your user collection
+const express = require("express");
+const { User, Appointment } = require("./mongodb"); // Import User and Appointment models
 const session = require("express-session");
-const Appointment = require("./config"); // This should be your appointment model
 require("dotenv").config();
 
 const app = express();
@@ -41,11 +40,11 @@ app.post("/signup", async (req, res) => {
             password: req.body.password,
         };
 
-        const existingUser = await Collection1.findOne({ name: data.name });
+        const existingUser = await User.findOne({ name: data.name }); // Use User model
         if (existingUser) {
             return res.send("User already exists.");
         } else {
-            await Collection1.insertMany(data); // Use insertOne instead of insertMany
+            await User.create(data); // Use create instead of insertMany
             req.session.user = { name: data.name };
 
             req.session.save((err) => {
@@ -65,7 +64,7 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        const user = await Collection1.findOne({ name: req.body.username });
+        const user = await User.findOne({ name: req.body.username }); // Use User model
         if (!user) {
             return res.send("User not found");
         }
@@ -88,32 +87,36 @@ app.post("/login", async (req, res) => {
 
 app.post("/appointment", isAuthenticated, async (req, res) => {
     try {
+        // Create a new appointment object from the request body
         const newAppointment = {
-            name: req.body.username, // Ensure this matches your form input
+            username: req.body.username, // Ensure this is the correct field name
             email: req.body.email,
             mobile_no: req.body.mobile_no,
-            service: req.body.service, // Ensure this matches the enum values in the schema
+            services: req.body.services, // Capture selected services
             time: req.body.time,
-            days: req.body.days, // Ensure this matches the enum values in the schema
+            days: req.body.days,
         };
+        console.log('Received data:', req.body); // Check all received data
 
-        // Create a new appointment instance
-        const appointment = new Appointment(newAppointment); 
-        await appointment.save(); // Save the instance
+        // Create a new appointment instance using the Appointment model
+        const appointment = new Appointment(newAppointment);
+        await appointment.save(); // Save the appointment to the database
 
         // Render the confirmation page with appointment details
         res.render("confirm", {
-            service: req.body.service,
+            service: req.body.service, // Pass the selected services to the confirmation page
             time: req.body.time,
             days: req.body.days,
-            name: req.body.username, // Ensure you pass the correct name
+            name: req.body.username, // Pass the username to the confirmation page
             message: "Your appointment has been successfully booked!" // Optional confirmation message
         });
+
     } catch (error) {
         console.error("Error booking appointment:", error);
         res.status(500).send("An error occurred while booking the appointment.");
     }
 });
+
 
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
@@ -121,12 +124,9 @@ app.get("/logout", (req, res) => {
             console.error("Error destroying session:", err);
             return res.send("An error occurred while logging out.");
         }
-        // Redirect to the login page or home page after logging out
         res.redirect("/");
     });
 });
-
-
 
 app.get("/services", isAuthenticated, (req, res) => {
     res.render("services");
