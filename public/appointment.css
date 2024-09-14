@@ -1,182 +1,128 @@
-/* General Body Styling */
+/* appointment.css */
+
+/* General body styles */
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f3f4f6;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* Start at the top of the page */
+    min-height: 100vh;
+    overflow-y: auto; /* Allow scrolling */
 }
 
-/* Container Styling */
+/* Container styling */
 .container {
-    width: 90%; /* Changed to percentage for responsiveness */
-    max-width: 500px; /* Set a max width */
-    background-color: #fff;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    animation: pulse 2s infinite;
-    transition: right 0.5s ease;
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Set max-width to control the container size on larger screens */
+    margin: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 h1 {
+    text-align: center;
     color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Input, select, and form element styles */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group input[type="time"],
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Make sure padding doesn't affect width */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+}
+
+/* Checkbox container styling */
+.form-group .checkbox-container {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-/* Form Group Styling */
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
+.form-group .checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
 }
 
-label {
-    color: #555;
-    font-size: 14px;
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Input Fields Styling */
-input[type="text"],
-input[type="email"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-select {
-    width: calc(100% - 10px); /* Increased the width */
-    padding: 10px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-/* Button Styling */
+/* Book appointment button */
 .book {
-    width: 100%; /* Full width */
-    padding: 12px;
-    background-color: #004754;
-    color: #fff;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    display: inline-block;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
 }
 
 .book:hover {
-    background-color: #bebd00;
+    background-color: #0056b3;
 }
 
-/* Message Styling */
 #message {
-    margin-top: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
     text-align: center;
-    color: #004754;
-    font-size: 14px;
 }
 
-/* Popup Styling */
-.popup {
-    right: 0;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 200px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 999;
-    animation: pulse 2s infinite;
-    transition: right 0.5s ease;
-}
-
-.popup-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.social-icons a {
-    margin: 10px 0;
-    display: block;
-}
-
-.social-icons i {
-    font-size: 24px;
-    color: #333;
-    transition: transform 0.3s ease;
-}
-
-.social-icons i:hover {
-    transform: scale(1.1);
-}
-
-.paused {
-    animation-play-state: paused;
-}
-
-/* Keyframe Animation */
-/* @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-} */
-
-/* Responsive Styles */
-@media (max-width: 768px) {
+/* Media query for small screens */
+@media (max-width: 600px) {
     .container {
-        width: 95%; /* Adjust width for smaller screens */
-        padding: 20px; /* Reduce padding */
-    }
-
-    .book {
-        padding: 10px; /* Adjust button padding */
-        font-size: 14px; /* Reduce button font size */
+        padding: 15px;
+        margin: 15px;
+        max-width: 100%; /* Full width for small screens */
     }
 
     h1 {
-        font-size: 24px; /* Adjust heading size */
-    }
-
-    label {
-        font-size: 12px; /* Adjust label size */
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="number"],
-    input[type="date"],
-    input[type="time"],
-    select {
-        font-size: 12px; /* Reduce input font size */
-    }
-
-    #message {
-        font-size: 12px; /* Adjust message font size */
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 20px; /* Further adjust heading size */
-    }
-
-    .container {
-        padding: 15px; /* Further reduce padding */
+        font-size: 20px;
     }
 
     .book {
-        font-size: 12px; /* Further reduce button font size */
+        font-size: 14px;
+    }
+}
+
+/* Media query for large screens */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 600px; /* Increase the max width for very large screens */
     }
 }

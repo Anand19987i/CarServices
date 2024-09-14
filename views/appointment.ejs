@@ -17,30 +17,51 @@
         <form id="appointment-form" action="/appointment" method="POST">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="username" required>
+                <input type="text" id="name" name="username" minlength="3" required>
+                <small id="name-error" style="color: red;"></small>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+                <small id="email-error" style="color: red;"></small>
             </div>
             <div class="form-group">
                 <label for="phoneno">Mobile No:</label>
                 <input type="number" id="phoneno" name="mobile_no" required>
+                <small id="phone-error" style="color: red;"></small>
             </div>
             <div class="form-group">
-                <label for="service">Choose a Service:</label>
-                <select id="service" name="service" required>
-                    <option value="air_filter">Air Filter Change</option>
-                    <option value="car_washing">Car Washing</option>
-                    <option value="brakes_inspection">Brakes Inspection</option>
-                    <option value="spark_plugs">Spark Plugs Replacement</option>
-                    <option value="tire_rotation">Tire Rotation</option>
-                    <option value="full_service">Full Car Service</option>
-                </select>
+                <label>Choose Services:</label>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="air_filter" name="service[]" value="air_filter">
+                    <label for="air_filter">Air Filter Change</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="car_washing" name="service[]" value="car_washing">
+                    <label for="car_washing">Car Washing</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="brakes_inspection" name="service[]" value="brakes_inspection">
+                    <label for="brakes_inspection">Brakes Inspection</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="spark_plugs" name="service[]" value="spark_plugs">
+                    <label for="spark_plugs">Spark Plugs Replacement</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="tire_rotation" name="service[]" value="tire_rotation">
+                    <label for="tire_rotation">Tire Rotation</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="full_service" name="service[]" value="full_service">
+                    <label for="full_service">Full Car Service</label>
+                </div>
+                <small id="service-error" style="color: red;"></small>
             </div>
             <div class="form-group">
-                <label for="time">Time:</label>
+                <label for="time">Time (9 AM - 6 PM):</label>
                 <input type="time" id="time" name="time" required>
+                <small id="time-error" style="color: red;"></small>
             </div>
             <div class="form-group">
                 <label for="days">Available Days:</label>
@@ -50,17 +71,72 @@
                     <option value="friday">Friday</option>
                 </select>
             </div>
-            <a href="/confirm" class="book">Book Appointment</a>
+            <a href="#" id="submit-link" class="book">Book Appointment</a>
         </form>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            var submitLink = document.getElementById("submit-link");
             var form = document.getElementById("appointment-form");
-            form.addEventListener("submit", function (event) {
-                var messageDiv = document.getElementById("message");
-                messageDiv.innerHTML = "Booking in progress...";
-                messageDiv.style.color = "blue";
+
+            submitLink.addEventListener("click", function (event) {
+                event.preventDefault();  // Prevent default anchor behavior
+                var isValid = true;
+
+                // Clear previous error messages
+                document.getElementById("name-error").textContent = "";
+                document.getElementById("email-error").textContent = "";
+                document.getElementById("phone-error").textContent = "";
+                document.getElementById("service-error").textContent = "";
+                document.getElementById("time-error").textContent = "";
+
+                // Form elements
+                var name = document.getElementById("name");
+                var email = document.getElementById("email");
+                var phoneno = document.getElementById("phoneno");
+                var time = document.getElementById("time");
+                var checkboxes = document.querySelectorAll('input[name="service[]"]');
+                var isServiceSelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Name validation
+                if (name.value.length < 3) {
+                    isValid = false;
+                    document.getElementById("name-error").textContent = "Name must be at least 3 characters.";
+                }
+
+                // Email validation
+                if (!email.value.includes('@')) {
+                    isValid = false;
+                    document.getElementById("email-error").textContent = "Please enter a valid email.";
+                }
+
+                // Phone number validation
+                var phonePattern = /^[0-9]{10}$/;
+                if (!phonePattern.test(phoneno.value)) {
+                    isValid = false;
+                    document.getElementById("phone-error").textContent = "Phone number must be 10 digits.";
+                }
+
+                // Service validation
+                if (!isServiceSelected) {
+                    isValid = false;
+                    document.getElementById("service-error").textContent = "Please select at least one service.";
+                }
+
+                // Time validation
+                if (time.value < "09:00" || time.value > "18:00") {
+                    isValid = false;
+                    document.getElementById("time-error").textContent = "Please select a time between 9 AM and 6 PM.";
+                }
+
+                // If valid, submit form
+                if (isValid) {
+                    form.submit();  // Submit the form
+                    window.location.href = "/confirm";  // Redirect to /confirm
+                } else {
+                    event.preventDefault();  // Prevent default anchor navigation if validation fails
+                }
             });
         });
     </script>
