@@ -1,16 +1,22 @@
+// db.js or mongodb.js
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/Login", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
-    console.log("MongoDB connected");
-})
-.catch((error) => {
-    console.error("Failed to connect to MongoDB:", error);
-});
+// Use the MongoDB URI from the environment variable or default to local connection
+const mongoURI = "mongodb+srv://anandpandey1765:AYv5hDWMmvcJ4Ziz@carservicesdb.iijjd.mongodb.net/?retryWrites=true&w=majority&appName=CarServicesDB";
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("MongoDB connected");
+    } catch (error) {
+        console.error("Failed to connect to MongoDB:", error.message);
+        process.exit(1); // Exit the application on connection failure
+    }
+};
 
 // Define Appointment Schema
 const AppointmentSchema = new mongoose.Schema({
@@ -44,4 +50,6 @@ const AppointmentSchema = new mongoose.Schema({
 
 // Create Appointment Model
 const Appointment = mongoose.model("Appointment", AppointmentSchema); // Model name in singular form
-module.exports = Appointment;
+
+// Export the connection function and the Appointment model
+module.exports = { connectDB, Appointment };

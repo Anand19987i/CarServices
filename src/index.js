@@ -1,5 +1,5 @@
 const express = require("express"); 
-const collection = require("./mongodb"); // Assuming this is your user collection
+const Collection1 = require("./mongodb"); // Assuming this is your user collection
 const session = require("express-session");
 const Appointment = require("./config"); // This should be your appointment model
 require("dotenv").config();
@@ -41,11 +41,11 @@ app.post("/signup", async (req, res) => {
             password: req.body.password,
         };
 
-        const existingUser = await collection.findOne({ name: data.name });
+        const existingUser = await Collection1.findOne({ name: data.name });
         if (existingUser) {
             return res.send("User already exists.");
         } else {
-            await collection.insertMany(data); // Use insertOne instead of insertMany
+            await Collection1.insertMany(data); // Use insertOne instead of insertMany
             req.session.user = { name: data.name };
 
             req.session.save((err) => {
@@ -65,7 +65,7 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        const user = await collection.findOne({ name: req.body.username });
+        const user = await Collection1.findOne({ name: req.body.username });
         if (!user) {
             return res.send("User not found");
         }
