@@ -196,10 +196,12 @@ header p {
     align-items: flex-start;
     flex-direction: column;
     margin-bottom: 40px;
-    margin-left: 200px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
     background: #fbfbfb;
-    width: 1000px;
+    width: 100%;
+    max-width: 1000px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -219,6 +221,42 @@ header p {
 .contact-section strong {
     color: #333;
 }
+
+/* Responsive styles for smaller screens */
+@media (max-width: 1024px) {
+    .contact-section {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .contact-section h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        width: 100%;
+        padding: 15px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contact-section h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .contact-section p {
+        font-size: 0.9rem;
+    }
+}
+
 
 /* Footer */
 .footer {
