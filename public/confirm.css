@@ -11,7 +11,8 @@ body {
     line-height: 1.6;
     background-color: #f9f9f9; /* Light background color */
     color: #333; /* Dark text color */
-    padding:0px
+    padding: 0px;
+    margin: 0;
 }
 
 /* Header styles */
@@ -67,4 +68,49 @@ a {
 
 a:hover {
     background-color: #45a049; /* Darker green on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    /* On smaller tablets and phones, reduce padding and font size */
+    main {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em; /* Slightly smaller heading */
+    }
+
+    h2 {
+        font-size: 1.6em; /* Slightly smaller secondary heading */
+    }
+
+    a {
+        padding: 8px 12px; /* Adjust button size */
+    }
+}
+
+@media (max-width: 480px) {
+    /* On small phones, adjust layout and font sizes further */
+    body {
+        font-size: 14px; /* Adjust base font size for readability */
+    }
+
+    main {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em; /* Smaller heading */
+    }
+
+    h2 {
+        font-size: 1.4em; /* Smaller secondary heading */
+    }
+
+    a {
+        padding: 6px 10px; /* Smaller button size */
+    }
 }

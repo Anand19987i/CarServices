@@ -77,72 +77,65 @@
                 <!-- form fields as before -->
                 <button type="submit" class="book">Book Appointment</button> <!-- Changed from anchor to button -->
             </form>
-            
         </form>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var submitLink = document.getElementById("submit-link");
             var form = document.getElementById("appointment-form");
-
-            submitLink.addEventListener("click", function (event) {
-                event.preventDefault();  // Prevent default anchor behavior
+        
+            form.addEventListener("submit", function (event) {
                 var isValid = true;
-
+        
                 // Clear previous error messages
                 document.getElementById("name-error").textContent = "";
                 document.getElementById("email-error").textContent = "";
                 document.getElementById("phone-error").textContent = "";
                 document.getElementById("service-error").textContent = "";
                 document.getElementById("time-error").textContent = "";
-
+        
                 // Form elements
                 var name = document.getElementById("name");
                 var email = document.getElementById("email");
                 var phoneno = document.getElementById("phoneno");
-                var time = document.getElementById("time"); 
-                var checkboxes = document.querySelectorAll('input[name="service[]"]');
-                var isServiceSelected = Array.from(checkboxes).some(checkbox => checkbox.checked); 
-
+                var time = document.getElementById("time");
+                var checkboxes = document.querySelectorAll('input[name="services"]');
+                var isServiceSelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        
                 // Name validation
                 if (name.value.length < 3) {
                     isValid = false;
                     document.getElementById("name-error").textContent = "Name must be at least 3 characters.";
                 }
-
+        
                 // Email validation
                 if (!email.value.includes('@')) {
                     isValid = false;
                     document.getElementById("email-error").textContent = "Please enter a valid email.";
                 }
-
+        
                 // Phone number validation
-                var phonePattern = /^[0-9]{10}$/;
+                var phonePattern = /^[1-9][0-9]{9}$/; // Regex to ensure 10 digits, not starting with 0
                 if (!phonePattern.test(phoneno.value)) {
                     isValid = false;
-                    document.getElementById("phone-error").textContent = "Phone number must be 10 digits.";
+                    document.getElementById("phone-error").textContent = "Phone number must be 10 digits and cannot start with 0.";
                 }
-
+        
                 // Service validation
-                if (!isServiceSelected()) {
+                if (!isServiceSelected) {
                     isValid = false;
-                    serviceError.textContent = "Please select at least one service.";
+                    document.getElementById("service-error").textContent = "Please select at least one service.";
                 }
-
-                //Time validation
+        
+                // Time validation
                 if (time.value < "09:00" || time.value > "18:00") {
-                   isValid = false;
-                   document.getElementById("time-error").textContent = "Please select a time between 9 AM and 6 PM.";
+                    isValid = false;
+                    document.getElementById("time-error").textContent = "Please select a time between 9 AM and 6 PM.";
                 }
-
-                // If valid, submit form
-                if (isValid) {  // Submit the form
-                    form.submit(); 
-                    window.location.href = "/confirm";
-                 // Redirect to /confirm
-                } else {
-                    event.preventDefault();  // Prevent default anchor navigation if validation fails
+        
+                // Prevent form submission if validation fails
+                if (!isValid) {
+                    event.preventDefault();  // Prevent form submission only if validation fails
                 }
             });
         });

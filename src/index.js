@@ -92,24 +92,17 @@ app.post("/appointment", isAuthenticated, async (req, res) => {
             username: req.body.username, // Ensure this is the correct field name
             email: req.body.email,
             mobile_no: req.body.mobile_no,
-            services: req.body.services, // Capture selected services
+            services: req.body.services, 
             time: req.body.time,
             days: req.body.days,
         };
-        console.log('Received data:', req.body); // Check all received data
+        console.log('Received data:', req.body); 
 
-        // Create a new appointment instance using the Appointment model
+
         const appointment = new Appointment(newAppointment);
-        await appointment.save(); // Save the appointment to the database
+        await appointment.save(); 
 
-        // Render the confirmation page with appointment details
-        res.render("confirm", {
-            service: req.body.service, // Pass the selected services to the confirmation page
-            time: req.body.time,
-            days: req.body.days,
-            name: req.body.username, // Pass the username to the confirmation page
-            message: "Your appointment has been successfully booked!" // Optional confirmation message
-        });
+        res.redirect("/confirm")
 
     } catch (error) {
         console.error("Error booking appointment:", error);

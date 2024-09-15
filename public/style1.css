@@ -258,6 +258,7 @@ header.shadow #search-icon{
     flex-wrap: wrap;
     align-items: center;
     gap: 1.5rem;
+    margin-top: -100px;
 
 }
 
@@ -475,7 +476,107 @@ header.shadow #search-icon{
 .copyright p:hover{
     color: var(--main-color);
 }
+/* Container for image and qualities */
+/* Container for image and qualities */
+.carsss {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
 
+/* Image container with increased width */
+.imggg {
+    flex: 4; /* Increased flex value to take up more space */
+    max-width: 700px; /* Increased the maximum width */
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.imggg img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Qualities container */
+.qualities {
+    flex: 3; /* Adjusted flex value to maintain proportion with the image */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Individual quality box */
+.qqq {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 180px;
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #020102;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.qqq h4 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.qqq p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .carsss {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .imggg {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .qualities {
+        justify-content: center;
+    }
+
+    .qqq {
+        width: 100%;
+        max-width: 300px;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .imggg {
+        width: 100%;
+    }
+
+    .qqq h4 {
+        font-size: 20px;
+    }
+
+    .qqq p {
+        font-size: 14px;
+    }
+}
 
 /* Making Responsive */
 @media (max-width: 1080px) {
