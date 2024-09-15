@@ -122,11 +122,11 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    res.render("about");
+    res.render("about",  { user: req.session.user });
 })
 
 app.get("/services", isAuthenticated, (req, res) => {
-    res.render("services");
+    res.render("services", { user: req.session.user });
 });
 
 app.get("/appointment", isAuthenticated, (req, res) => {

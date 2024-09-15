@@ -1,18 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-/* global styles */
-
-* {
-  margin:0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "League Spartan", sans-serif;
+header{
+  z-index: 100;
+  background-color: #ffff;
+}
+.navbar a:hover,
+.navbar .active{
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+}
+#menu-icon{
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+  display: none;
 }
 
 h1 {
   font-size: 50px;
   line-height: 64px;
   color: #222;
+  margin-top: 50px;
 }
 h2 {
   font-size: 46px;
@@ -29,7 +37,7 @@ h6 {
 }
 p {
   font-size: 16px;
-  color: #465b52;
+  color: #d90429;
   margin: 15px 0 20px 0;
 }
 .section-p1 {

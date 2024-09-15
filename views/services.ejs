@@ -6,14 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services - CarCrafters</title>
     <link rel="stylesheet" href="/services.css">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="/style1.css">
     <link rel="shortcut icon" href="/img/favicon-32x32.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+    <header>
+        <div class="nav container">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <a href="#" class="logo">Car<span>Crafters</span></a>
+            <ul class="navbar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services" target="_blank" rel="" class="active">Services</a></li>
+                <li>
+                    <!-- Check if user is logged in -->
+                    <% if (user) { %>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="/<%= user.name %>">
+                            <%= user.name %>
+                        </a>
+                        <a href="/logout" class="logout-link">Logout</a> <!-- Add logout link -->
+                    <% } else { %>
+                        <a href="/login">Login</a>
+                    <% } %>
+                </li>
+            </ul>
+            <i class='bx bx-search' id="search-icon"></i>
+            <div class="search-box container">
+                <input type="search" name="" id="" placeholder="Search here...">
+            </div>
+        </div>
+    </header>
+    
     <section class="product-section" class="section-p1">
         <h1>Featured Car Services</h1>
         <p>Provide Quality and Refinement Services</p>
@@ -133,6 +162,39 @@
             </div>
         </div>
     </section>
+    <div class="copyright">
+        <p>&#169; Car<span>Crafters</span> All Right Reserved</p>
+    </div>
+    <script>
+        let search = document.querySelector('.search-box');
+
+        document.querySelector('#search-icon').onclick = () => {
+            search.classList.toggle('active');
+            menu.classList.remove('active');
+        }
+
+        let menu = document.querySelector('.navbar');
+
+        document.querySelector('#menu-icon').onclick = () => {
+            menu.classList.toggle('active');
+            search.classList.remove('active');
+        }
+
+        // Hide Menu And Search Box On Scroll
+        window.onscroll = () => {
+            menu.classList.remove('active');
+            search.classList.remove('active');
+
+        }
+        //header
+        let header = document.querySelector('header');
+
+
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('shadow', window.scrollY > 0);
+
+        });
+    </script>
 </body>
 
 </html>
