@@ -121,6 +121,10 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.get("/about", (req, res) => {
+    res.render("about");
+})
+
 app.get("/services", isAuthenticated, (req, res) => {
     res.render("services");
 });
