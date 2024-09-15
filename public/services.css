@@ -128,3 +128,6 @@ body {
   right: 10px;
   bottom: 10px;
 }
+.copyright p {
+  color: #969696;
+}
