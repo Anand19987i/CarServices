@@ -42,7 +42,7 @@ app.post("/signup", async (req, res) => {
 
         const existingUser = await User.findOne({ name: data.name }); // Use User model
         if (existingUser) {
-            return res.send("User already exists.");
+            return res.send("<h1>User already exists.</h1>");
         } else {
             await User.create(data); // Use create instead of insertMany
             req.session.user = { name: data.name };
@@ -77,7 +77,7 @@ app.post("/login", async (req, res) => {
                 return res.redirect("/");
             });
         } else {
-            return res.send("Incorrect password");
+            return res.send("<h1>Incorrect password</h1>");
         }
     } catch (error) {
         console.error(error);
@@ -96,9 +96,6 @@ app.post("/appointment", isAuthenticated, async (req, res) => {
             time: req.body.time,
             days: req.body.days,
         };
-        console.log('Received data:', req.body); 
-
-
         const appointment = new Appointment(newAppointment);
         await appointment.save(); 
 
