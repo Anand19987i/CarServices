@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-
-// Replace <password> with your actual password
 const mongoURI = "mongodb+srv://anandpandey1765:AYv5hDWMmvcJ4Ziz@carservicesdb.iijjd.mongodb.net/?retryWrites=true&w=majority&appName=CarServicesDB";
 
 mongoose.connect(mongoURI)
@@ -11,55 +9,64 @@ mongoose.connect(mongoURI)
     console.error("Failed to connect to MongoDB:", error.message);
 });
 
-// Define the User schema
 const LogInSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        minlength : 3,
     },
     password: {
         type: String,
         required: true,
     }
 });
-
-// Create the User model
 const User = mongoose.model("User", LogInSchema);
 
-// Define the Appointment schema
 const AppointmentSchema = new mongoose.Schema({
     username: {
-        type: String, // For the name field
+        type: String, 
         required: true,
-        minlength: 3, // Minimum length as per your form
+        minlength: 3, 
     },
     email: {
-        type: String, // For the email field
+        type: String, 
         required: true,
-        match: /.+\@.+\..+/, // Regex for validating email format
+        match: /.+\@.+\..+/, 
     },
     mobile_no: {
-        type: String, // Change to String to accommodate different phone number formats
+        type: String,
         required: true,
     },
      services: {
-        type: [String], // Array of strings for multiple selected services
+        type: [String],
         required: true,
     },
      time: {
-        type: String, // Time as a string (e.g., "09:00") to match input type="time"
+        type: String, 
         required: true,
     },
     days: {
-        type: String, // For the days field
-        enum: ["monday", "wednesday", "friday"], // Restricting to specific days
+        type: String, 
+        enum: ["monday", "wednesday", "friday"],
         required: true,
     }
 });
 
-// Create the Appointment model
 const Appointment = mongoose.model("Appointment", AppointmentSchema);
 
+const AdminSchema = new mongoose.Schema({
+    adminName : {
+        type : String,
+        required : true,
+        minlength : 3,
+    },
+    adminPassword : {
+        type : String,
+        required : true,
+        minlength: 3,
+    }
+});
 
-// Export both models
-module.exports = { User, Appointment };
+const Admin = mongoose.model("Admin", AdminSchema);
+
+module.exports = { User, Appointment, Admin };

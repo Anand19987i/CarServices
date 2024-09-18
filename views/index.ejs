@@ -19,32 +19,42 @@
 <body>
     <!--Navbar-->
     <header>
-    <div class="nav container">
-        <i class='bx bx-menu' id="menu-icon"></i>
-        <a href="#" class="logo">Car<span>Crafters</span></a>
-        <ul class="navbar">
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/services">Services</a></li>
-            <li>
-                <!-- Check if user is logged in -->
-                <% if (user) { %>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="/<%= user.name %>">
-                        <%= user.name %>
-                    </a>
-                    <a href="/logout" class="logout-link">Logout</a> <!-- Add logout link -->
-                <% } else { %>
-                    <a href="/login">Login</a>
-                <% } %>
-            </li>
-        </ul>
-        <i class='bx bx-search' id="search-icon"></i>
-        <div class="search-box container">
-            <input type="search" name="" id="" placeholder="Search here...">
+        <div class="nav container">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <a href="/" class="logo">Car<span>Crafters</span></a>
+            <ul class="navbar">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li>
+                    <!-- Check if user is logged in -->
+                    <% if (user && user.role === 'user') { %>
+                        <!-- Show for regular users -->
+                        <i class="fa-solid fa-user"></i>
+                        <a href="/">
+                            <%= user.name %> <!-- Display the username -->
+                        </a>
+                        <a href="/logout" class="logout-link">Logout</a>
+                    <% } else if (user && user.role === 'admin') { %>
+                        <!-- Show for admins -->
+                        <i class="fa-solid fa-user-shield"></i>
+                        <a href="/admin">
+                            Admin <%= user.adminName %> <!-- Display the admin name -->
+                        </a>
+                        <a href="/logout" class="logout-link">Logout</a>
+                    <% } else { %>
+                        <!-- Show login link if no one is logged in -->
+                        <a href="/login">Login</a>
+                    <% } %>
+                </li>
+            </ul>
+            <i class='bx bx-search' id="search-icon"></i>
+            <div class="search-box container">
+                <input type="search" name="" id="" placeholder="Search here...">
+            </div>
         </div>
-    </div>
-</header>
+    </header>
+    
 
 
     <!--Home section-->
@@ -120,7 +130,7 @@
             <div class="box">
                 <img src="/img/part1.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$130.99</span>
+                <span>₹13999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href="/appointment" class="btn">Buy Now</a>
             </div>
@@ -130,7 +140,7 @@
             <div class="box">
                 <img src="/img/part2.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$260.99</span>
+                <span>₹26999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href= "/appointment"class="btn">Buy Now</a>
             </div>
@@ -140,7 +150,7 @@
             <div class="box">
                 <img src="/img/part3.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$120.99</span>
+                <span>₹12999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href="/appointment" class="btn">Buy Now</a>
             </div>
@@ -150,7 +160,7 @@
             <div class="box">
                 <img src="/img/part4.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$690.99</span>
+                <span>₹69999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href="/appointment" class="btn">Buy Now</a>
             </div>
@@ -160,7 +170,7 @@
             <div class="box">
                 <img src="/img/part5.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$820.99</span>
+                <span>₹82999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href="/appointment" class="btn">Buy Now</a>
             </div>
@@ -170,7 +180,7 @@
             <div class="box">
                 <img src="/img/part6.png" alt="">
                 <h3>Auto Spare Parts</h3>
-                <span>$999.99</span>
+                <span>₹99999</span>
                 <i class='bx bxs-star'>(6 Reviews)</i>
                 <a href="/appointment" class="btn">Buy Now</a>
             </div>

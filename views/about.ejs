@@ -25,10 +25,10 @@
                     <!-- Check if user is logged in -->
                     <% if (user) { %>
                         <i class="fa-solid fa-user"></i>
-                        <a href="/<%= user.name %>">
+                        <a href="/about">
                             <%= user.name %>
                         </a>
-                        <a href="/logout" class="logout-link">Logout</a> <!-- Add logout link -->
+                        <!-- <a href="/logout" class="logout-link">Logout</a> Add logout link -->
                     <% } else { %>
                         <a href="/login">Login</a>
                     <% } %>

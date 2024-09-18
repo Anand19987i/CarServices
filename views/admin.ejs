@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarCrafters - Mastering Auto Care</title>
+
+    <!-- Stylesheets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="/img/favicon-32x32.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <!-- Navbar -->
+    <header>
+        <nav class="bg-gray-900 p-4 text-white flex justify-between items-center shadow-lg">
+            <div class="text-xl font-bold">CarCrafters Admin</div>
+            <ul class="flex space-x-6">
+                <li><a href="/Logout" class="hover:text-gray-400 transition">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex">
+        <!-- Dashboard -->
+        <main class="w-full h-screen p-6">
+            <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
+            <!-- Analytics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Total Appointments -->
+                <div class="bg-blue-100 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                    <h2 class="text-xl font-bold mb-2 text-blue-800 text-center">Total Appointments</h2>
+                    <p class="text-3xl font-bold text-blue-600 text-center">
+                        <%= totalAppointments %>
+                    </p>
+                </div>
+                <!-- Services Provided -->
+                <!-- Services Provided -->
+                <div class="bg-green-100 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                    <h2 class="text-xl font-bold mb-2 text-green-800 text-center">Services Remains</h2>
+                    <p class="text-3xl font-bold text-green-600 text-center" id="totalServicesDisplay">0</p>
+                </div>
+
+                <!-- Total Profits -->
+                <div class="bg-yellow-100 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                    <h2 class="text-xl font-bold mb-2 text-yellow-800 text-center">Total Profits</h2>
+                    <p class="text-3xl font-bold text-yellow-600 text-center" id="totalProfitDisplay">₹0.00</p>
+                </div>
+
+            </div>
+
+            <!-- Table of Recent Appointments -->
+            <div class="mt-8 max-h-96 overflow-auto shadow-lg rounded-lg bg-white">
+                <h2 class="text-2xl font-bold mb-4 p-4 border-b text-left">Recent Appointments</h2>
+                <table class="min-w-full">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="w-1/5 p-4 text-left">Customer</th>
+                            <th class="w-1/5 p-4 text-left">Service</th>
+                            <th class="w-1/5 p-4 text-left">Time</th>
+                            <th class="w-1/5 p-4 text-left">Status</th>
+                            <th class="w-1/5 p-4 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentAppointments.forEach(appointment=> { %>
+                            <tr class="border-b hover:bg-gray-100 transition duration-300 ease-in-out"
+                                data-id="<%= appointment._id %>">
+                                <td class="p-4 text-left">
+                                    <%= appointment.username %>
+                                </td>
+                                <td class="p-4 text-left">
+                                    <%= appointment.services %>
+                                </td>
+                                <td class="p-4 text-left">
+                                    <%= appointment.time %>
+                                </td>
+                                <td class="p-4 text-left" id="status-<%= appointment._id %>">
+                                    <select onchange="updateStatusDisplay('<%= appointment._id %>', this.value)"
+                                        class="border rounded p-1">
+                                        <option value="Pending" <%=appointment.status==='Pending' ? 'selected' : '' %>
+                                            >Pending</option>
+                                        <option value="Completed" <%=appointment.status==='Completed' ? 'selected' : ''
+                                            %>>Completed</option>
+                                        <option value="Cancelled" <%=appointment.status==='Cancelled' ? 'selected' : ''
+                                            %>>Cancelled</option>
+                                    </select>
+                                </td>
+                                <td class="p-4 text-left">
+                                    <button
+                                        class="bg-blue-500 text-white px-3 py-1 rounded transition hover:bg-blue-600"
+                                        onclick="showAppointmentDetails('<%= appointment.username %>', '<%= appointment.services %>', '<%= appointment.time %>', '<%= appointment.status %>', '<%= appointment.mobile_no %>', '<%= appointment.email %>', '<%= appointment.days %>')">View</button>
+                                    <button class="bg-red-500 text-white px-3 py-1 rounded transition hover:bg-red-600"
+                                        onclick="deleteAppointment('<%= appointment._id %>')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal for Appointment Details -->
+    <div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center"
+        aria-modal="true" role="dialog">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-4">Appointment Details</h2>
+            <p><strong>Customer:</strong> <span id="modalCustomer"></span></p>
+            <p><strong>Service:</strong> <span id="modalService"></span></p>
+            <p><strong>Time:</strong> <span id="modalTime"></span></p>
+            <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+            <p><strong>Mobile:</strong> <span id="modalMobile"></span></p>
+            <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+            <p><strong>Day:</strong> <span id="modalDay"></span></p>
+            <button id="closeModal" class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white p-4 text-center z-100">
+        &copy; 2024 CarCrafters. All rights reserved.
+    </footer>
+    <script>
+        const recentAppointments = JSON.parse('<%- JSON.stringify(recentAppointments) %>');
+
+        function clearLocalStorage() {
+            // Clear localStorage for testing purposes
+            localStorage.removeItem('totalProfit');
+            localStorage.removeItem('processedAppointments');
+            console.log("Local storage cleared.");
+        }
+        
+        function loadTotalProfit() {
+            const storedProfit = localStorage.getItem('totalProfit');
+            console.log("Loaded Profit from Local Storage:", storedProfit);
+            return storedProfit ? parseFloat(storedProfit) : 0;
+        }
+        
+        function saveTotalProfit(profit) {
+            localStorage.setItem('totalProfit', profit);
+            console.log("Saved Profit to Local Storage:", profit);
+        }
+        
+        function loadProcessedAppointments() {
+            const storedAppointments = localStorage.getItem('processedAppointments');
+            return storedAppointments ? JSON.parse(storedAppointments) : [];
+        }
+        
+        function saveProcessedAppointments(processedAppointments) {
+            localStorage.setItem('processedAppointments', JSON.stringify(processedAppointments));
+        }
+        
+        function calculateTotalProfit(appointments) {
+            const servicePrices = {
+                "air_filter": 5999,
+                "spark_plugs": 2999,
+                "full_service": 7999,
+                "car_washing": 1999,
+                "tire_rotation": 9999,
+                "brakes_inspection": 3299
+            };
+        
+            let totalProfit = 0;
+            appointments.forEach(appointment => {
+                const services = Array.isArray(appointment.services) ? appointment.services : [appointment.services];
+                services.forEach(service => {
+                    if (servicePrices[service]) {
+                        totalProfit += servicePrices[service];
+                    }
+                });
+            });
+        
+            console.log("Calculated Profit:", totalProfit);
+            return totalProfit;
+        }
+        
+        function calculateAndDisplayTotalProfit(appointments) {
+            // Load the previously saved total profit and processed appointments
+            let totalProfit = loadTotalProfit();
+            let processedAppointments = loadProcessedAppointments();
+        
+            // Filter out appointments that have already been processed
+            const newAppointments = appointments.filter(appointment => !processedAppointments.includes(appointment.id));
+        
+            // Calculate the profit from only new appointments
+            const newProfit = calculateTotalProfit(newAppointments);
+        
+            // Add the new profit to the total profit
+            totalProfit += newProfit;
+        
+            // Save the updated total profit
+            saveTotalProfit(totalProfit);
+        
+            // Add the new appointments to the processed list and save it
+            const newProcessedAppointments = [...processedAppointments, ...newAppointments.map(appointment => appointment.id)];
+            saveProcessedAppointments(newProcessedAppointments);
+        
+            // Display the total profit on the page
+            document.getElementById('totalProfitDisplay').innerText = `₹${totalProfit.toFixed(2)}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Page Loaded, calculating and displaying total profit.");
+        
+            // Clear localStorage for testing purposes (remove this after testing)
+            clearLocalStorage();
+        
+            calculateAndDisplayTotalProfit(recentAppointments);
+        });
+        
+        
+
+        function updateStatusDisplay(appointmentId, status) {
+            localStorage.setItem(`appointmentStatus-${appointmentId}`, status);
+        }
+        function loadSavedStatuses() {
+            const appointments = document.querySelectorAll('tr[data-id]');
+
+            appointments.forEach(appointment => {
+                const appointmentId = appointment.getAttribute('data-id');
+                const savedStatus = localStorage.getItem(`appointmentStatus-${appointmentId}`);
+
+                if (savedStatus) {
+                    const statusSelect = appointment.querySelector('select');
+                    if (statusSelect) {
+                        statusSelect.value = savedStatus;
+                    }
+                }
+            });
+        }
+        window.onload = function () {
+            loadSavedStatuses();
+        };
+        function showAppointmentDetails(username, services, time, status, mobile, email, day) {
+            document.getElementById("modalCustomer").innerText = username;
+            document.getElementById("modalService").innerText = services;
+            document.getElementById("modalTime").innerText = time;
+            document.getElementById("modalMobile").innerText = mobile;
+            document.getElementById("modalEmail").innerText = email;
+            document.getElementById("modalDay").innerText = day;
+
+            const modal = document.getElementById("appointmentModal");
+            modal.classList.remove("hidden");
+
+            document.getElementById("closeModal").onclick = function () {
+                modal.classList.add("hidden");
+            };
+        }
+
+        // Function to delete an appointment
+        function deleteAppointment(appointmentId) {
+            if (confirm("Are you sure you want to delete this appointment?")) {
+                // Logic to delete appointment in your backend
+                fetch(`/delete-appointment/${appointmentId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert(`Appointment ${appointmentId} deleted!`);
+                            // Optionally, you can refresh the page or remove the appointment from the UI
+                            location.reload(); // This reloads the page to update the UI
+                        } else {
+                            alert("Failed to delete appointment. Please try again.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error deleting appointment:", error);
+                        alert("An error occurred. Please try again.");
+                    });
+            }
+        }
+
+        // Calculate total number of unique services
+        // Object to count the occurrences of each service
+        const serviceCounts = {};
+
+        recentAppointments.forEach(appointment => {
+            // Ensure appointment.services is an array
+            const services = Array.isArray(appointment.services) ? appointment.services : [appointment.services];
+
+            services.forEach(service => {
+                // Count occurrences of each service
+                if (serviceCounts[service]) {
+                    serviceCounts[service]++;
+                } else {
+                    serviceCounts[service] = 1;
+                }
+            });
+        });
+
+        // Calculate the total number of services provided
+        const totalServices = Object.values(serviceCounts).reduce((sum, count) => sum + count, 0);
+
+        // Display total services in the respective element
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("totalServicesDisplay").innerText = totalServices;
+        });
+    </script>
+</body>
+
+</html>
